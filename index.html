@@ -3,12 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <title>AI-разработчик — веб-приложения за дни, а не месяцы</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"> -->
 <script>
   tailwind.config = {
     theme: {
@@ -34,7 +31,6 @@
     font-family: 'Comfortaa', sans-serif;
     overflow-x: hidden;
   }
-  /* Мягкое свечение на фоне */
   .glow-bg::before {
     content: '';
     position: absolute;
@@ -51,7 +47,6 @@
       linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
     background-size: 48px 48px;
   }
-  /* Мигающий курсор */
   .caret::after {
     content: '|';
     color: #00FF41;
@@ -63,7 +58,6 @@
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
   }
-  /* Появление при скролле */
   .reveal {
     opacity: 0;
     transform: translateY(30px);
@@ -73,7 +67,6 @@
     opacity: 1;
     transform: translateY(0);
   }
-  /* Бегущая строка кода */
   @keyframes marquee {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
@@ -83,7 +76,6 @@
     width: max-content;
     animation: marquee 30s linear infinite;
   }
-  /* Карточки со стеклом */
   .glass {
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.08);
@@ -112,6 +104,114 @@
     font-size: 12px;
     color: rgba(255,255,255,0.7);
   }
+  /* Чат */
+  #chat-widget {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 100;
+    font-family: 'Inter', sans-serif;
+  }
+  #chat-toggle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #00FF41;
+    color: #0A0A0A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 8px 30px rgba(0,255,65,0.4);
+    transition: all 0.3s ease;
+    font-size: 24px;
+    border: none;
+  }
+  #chat-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 40px rgba(0,255,65,0.6);
+  }
+  #chat-window {
+    display: none;
+    width: 340px;
+    height: 480px;
+    background: #111;
+    border: 1px solid rgba(0,255,65,0.3);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    flex-direction: column;
+  }
+  #chat-window.open {
+    display: flex;
+  }
+  #chat-header {
+    padding: 16px;
+    background: rgba(0,255,65,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  #chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    font-size: 13px;
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .msg-bot {
+    background: rgba(255,255,255,0.06);
+    padding: 10px 14px;
+    border-radius: 12px 12px 12px 4px;
+    max-width: 85%;
+    color: rgba(255,255,255,0.85);
+  }
+  .msg-user {
+    background: rgba(0,255,65,0.15);
+    padding: 10px 14px;
+    border-radius: 12px 12px 4px 12px;
+    max-width: 85%;
+    align-self: flex-end;
+    color: #fff;
+  }
+  #chat-input-area {
+    display: flex;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding: 10px;
+    gap: 8px;
+  }
+  #chat-input {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: #fff;
+    font-size: 13px;
+    outline: none;
+  }
+  #chat-input:focus {
+    border-color: rgba(0,255,65,0.4);
+  }
+  #chat-send {
+    background: #00FF41;
+    color: #0A0A0A;
+    border: none;
+    border-radius: 8px;
+    padding: 0 16px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  #chat-send:hover {
+    opacity: 0.9;
+  }
 </style>
 </head>
 <body class="antialiased">
@@ -123,9 +223,9 @@
       <span class="text-neon">./</span>ai_builder
     </a>
     <nav class="hidden md:flex items-center gap-8 text-sm text-white/60">
+      <a href="#apps" class="hover:text-white transition">Мои приложения</a>
       <a href="#services" class="hover:text-white transition">Услуги</a>
-      <a href="#stack" class="hover:text-white transition">Стек</a>
-      <a href="#cases" class="hover:text-white transition">Кейсы</a>
+      <a href="#pricing" class="hover:text-white transition">Цены</a>
       <a href="#process" class="hover:text-white transition">Процесс</a>
       <a href="#faq" class="hover:text-white transition">FAQ</a>
     </nav>
@@ -137,28 +237,27 @@
 <section class="relative glow-bg grid-lines pt-40 pb-24 px-6 overflow-hidden">
   <div class="relative z-10 max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
     <div>
-      <span class="tag mb-6 inline-block">Доступен для проектов · Сентябрь 2026</span>
+      <span class="tag mb-6 inline-block">Открыт для новых проектов · Сентябрь 2026</span>
       <h1 class="font-display font-bold text-4xl md:text-6xl leading-tight mb-6">
-        Создаю веб-приложения <span class="text-neon">с помощью ИИ.</span><br />
-        Быстро. Дерзко. Работает.
+        Делаю веб-приложения <span class="text-neon">с помощью ИИ.</span><br />
+        Быстро. Честно. Работает.
       </h1>
       <p class="text-white/60 text-lg mb-8 max-w-lg">
-        Превращаю идеи в полноценные SaaS, MVP и лендинги за дни, а не месяцы. Без раздутого штата и лишних затрат. Только я и нейросети.
+        Я не студия и не агентство. Один человек, который умеет использовать нейросети для создания MVP, лендингов и автоматизации. Без раздутого бюджета и месяцев ожидания.
       </p>
       <div class="flex flex-wrap gap-4">
         <a href="#contact" class="btn-primary font-semibold px-6 py-3 rounded-full">Обсудить проект →</a>
-        <a href="#cases" class="border border-white/20 hover:border-neon hover:text-neon transition px-6 py-3 rounded-full font-medium">
-          Посмотреть кейсы
+        <a href="#apps" class="border border-white/20 hover:border-neon hover:text-neon transition px-6 py-3 rounded-full font-medium">
+          Посмотреть мои приложения
         </a>
       </div>
       <div class="mt-10 flex items-center gap-8 text-sm text-white/40 font-mono">
-        <div><span class="text-neon font-bold">14</span> дней средний MVP</div>
-        <div><span class="text-neon font-bold">3×</span> дешевле студии</div>
+        <div><span class="text-neon font-bold">2–4</span> недели на MVP</div>
+        <div><span class="text-neon font-bold">1</span> человек + ИИ</div>
         <div><span class="text-neon font-bold">100%</span> код ваш</div>
       </div>
     </div>
 
-    <!-- Имитация терминала -->
     <div class="relative">
       <div class="glass rounded-2xl overflow-hidden shadow-2xl">
         <div class="flex items-center gap-2 px-4 py-3 border-b border-white/5">
@@ -185,23 +284,82 @@
     </div>
   </div>
 
-  <!-- Бегущая строка -->
   <div class="relative z-10 mt-20 overflow-hidden border-y border-white/5 py-4">
     <div class="marquee text-sm text-white/30 font-mono gap-12">
-      <span>Next.js</span><span>·</span><span>Cursor</span><span>·</span><span>Claude 3.5</span><span>·</span>
+      <span>Next.js</span><span>·</span><span>Cursor</span><span>·</span><span>Claude</span><span>·</span>
       <span>Supabase</span><span>·</span><span>GPT-4o</span><span>·</span><span>v0.dev</span><span>·</span>
       <span>Vercel</span><span>·</span><span>Bolt.new</span><span>·</span><span>Tailwind</span><span>·</span>
-      <span>Next.js</span><span>·</span><span>Cursor</span><span>·</span><span>Claude 3.5</span><span>·</span>
+      <span>Next.js</span><span>·</span><span>Cursor</span><span>·</span><span>Claude</span><span>·</span>
       <span>Supabase</span><span>·</span><span>GPT-4o</span><span>·</span><span>v0.dev</span><span>·</span>
       <span>Vercel</span><span>·</span><span>Bolt.new</span><span>·</span><span>Tailwind</span><span>·</span>
     </div>
   </div>
 </section>
 
+<!-- MY APPS (главный блок-доказательство) -->
+<section id="apps" class="py-24 px-6 border-t border-white/5">
+  <div class="max-w-6xl mx-auto reveal">
+    <h2 class="font-display font-bold text-3xl md:text-4xl mb-4">Мои приложения</h2>
+    <p class="text-white/50 mb-12 max-w-2xl">
+      Я не только делаю сайты на заказ — я создаю свои продукты и пользуюсь ими каждый день. Это лучшее доказательство того, что я умею доводить проекты до конца.
+    </p>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <!-- ЗАМЕНИТЕ НА СВОИ РЕАЛЬНЫЕ ПРИЛОЖЕНИЯ -->
+      <div class="glass rounded-2xl overflow-hidden flex flex-col">
+        <div class="h-40 bg-gradient-to-br from-violet/30 to-neon/10 flex items-center justify-center font-mono text-white/40 text-sm">
+          [ скриншот вашего приложения 1 ]
+        </div>
+        <div class="p-6 flex flex-col flex-1">
+          <h3 class="font-display font-semibold text-lg mb-2">Название приложения 1</h3>
+          <p class="text-white/50 text-sm mb-4 flex-1">Что оно делает и какую задачу решает. Например: «Помогает отслеживать расходы и показывает, куда уходят деньги».</p>
+          <div class="flex gap-2 text-xs mb-4">
+            <span class="tag">Стек</span>
+            <span class="tag">Срок</span>
+          </div>
+          <a href="#" class="text-neon text-sm hover:underline">Открыть →</a>
+        </div>
+      </div>
+      <div class="glass rounded-2xl overflow-hidden flex flex-col">
+        <div class="h-40 bg-gradient-to-br from-neon/20 to-violet/20 flex items-center justify-center font-mono text-white/40 text-sm">
+          [ скриншот вашего приложения 2 ]
+        </div>
+        <div class="p-6 flex flex-col flex-1">
+          <h3 class="font-display font-semibold text-lg mb-2">Название приложения 2</h3>
+          <p class="text-white/50 text-sm mb-4 flex-1">Краткое описание. Что умеет, для кого сделано, сколько времени заняло.</p>
+          <div class="flex gap-2 text-xs mb-4">
+            <span class="tag">Стек</span>
+            <span class="tag">Срок</span>
+          </div>
+          <a href="#" class="text-neon text-sm hover:underline">Открыть →</a>
+        </div>
+      </div>
+      <div class="glass rounded-2xl overflow-hidden flex flex-col">
+        <div class="h-40 bg-gradient-to-tr from-violet/20 to-neon/30 flex items-center justify-center font-mono text-white/40 text-sm">
+          [ скриншот вашего приложения 3 ]
+        </div>
+        <div class="p-6 flex flex-col flex-1">
+          <h3 class="font-display font-semibold text-lg mb-2">Название приложения 3</h3>
+          <p class="text-white/50 text-sm mb-4 flex-1">Описание. Чем полезно, какие технологии использованы.</p>
+          <div class="flex gap-2 text-xs mb-4">
+            <span class="tag">Стек</span>
+            <span class="tag">Срок</span>
+          </div>
+          <a href="#" class="text-neon text-sm hover:underline">Открыть →</a>
+        </div>
+      </div>
+    </div>
+
+    <p class="text-white/30 text-sm mt-8 font-mono">
+      // Замените карточки на свои реальные приложения со скриншотами и ссылками
+    </p>
+  </div>
+</section>
+
 <!-- PROBLEM / SOLUTION -->
 <section class="py-24 px-6 border-t border-white/5">
   <div class="max-w-6xl mx-auto reveal">
-    <h2 class="font-display font-bold text-3xl md:text-4xl mb-4">Почему ИИ-разработка — новый стандарт</h2>
+    <h2 class="font-display font-bold text-3xl md:text-4xl mb-4">Почему ИИ-разработка — это быстрее и дешевле</h2>
     <p class="text-white/50 mb-12 max-w-2xl">Я не просто генерирую код. Я проектирую архитектуру, пишу промпты, отлаживаю логику и довожу продукт до состояния, когда им можно пользоваться.</p>
 
     <div class="grid md:grid-cols-2 gap-6">
@@ -225,39 +383,22 @@
         </ul>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- STACK -->
-<section id="stack" class="py-24 px-6 border-t border-white/5">
-  <div class="max-w-6xl mx-auto reveal">
-    <h2 class="font-display font-bold text-3xl md:text-4xl mb-4">Мой ИИ-арсенал</h2>
-    <p class="text-white/50 mb-12 max-w-2xl">Использую Cursor для кода в реальном времени и v0 для генерации UI. Фокус — на бизнес-логике, а не на синтаксисе.</p>
-
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="mt-12 grid md:grid-cols-3 gap-6">
       <div class="glass rounded-xl p-6">
-        <div class="text-violet text-xs font-mono mb-3">FRONTEND</div>
-        <ul class="space-y-2 text-white/80">
-          <li>Cursor</li><li>v0.dev</li><li>Bolt.new</li><li>Next.js / React</li>
-        </ul>
+        <div class="text-neon text-2xl mb-2">⚡</div>
+        <h3 class="font-semibold mb-2">Скорость</h3>
+        <p class="text-white/50 text-sm">То, что студия делает месяц, я делаю за неделю. ИИ убирает рутину, я фокусируюсь на логике.</p>
       </div>
       <div class="glass rounded-xl p-6">
-        <div class="text-violet text-xs font-mono mb-3">BACKEND & DB</div>
-        <ul class="space-y-2 text-white/80">
-          <li>Supabase</li><li>Firebase</li><li>Claude 3.5</li><li>Node.js API</li>
-        </ul>
+        <div class="text-neon text-2xl mb-2">🎯</div>
+        <h3 class="font-semibold mb-2">Фокус на бизнесе</h3>
+        <p class="text-white/50 text-sm">Мне важно, чтобы сайт приносил заявки, а не просто красиво выглядел. Настраиваю аналитику и интеграции.</p>
       </div>
       <div class="glass rounded-xl p-6">
-        <div class="text-violet text-xs font-mono mb-3">AI MODELS</div>
-        <ul class="space-y-2 text-white/80">
-          <li>GPT-4o</li><li>Claude</li><li>Gemini</li><li>Llama</li>
-        </ul>
-      </div>
-      <div class="glass rounded-xl p-6">
-        <div class="text-violet text-xs font-mono mb-3">DEPLOY</div>
-        <ul class="space-y-2 text-white/80">
-          <li>Vercel</li><li>Netlify</li><li>Cloudflare</li><li>Docker</li>
-        </ul>
+        <div class="text-neon text-2xl mb-2">🔓</div>
+        <h3 class="font-semibold mb-2">Без зависимости</h3>
+        <p class="text-white/50 text-sm">Код и доступы передаю вам. Никаких подписок и закрытых конструкторов. Вы владеете продуктом.</p>
       </div>
     </div>
   </div>
@@ -275,16 +416,16 @@
         <p class="text-white/50 text-sm mb-6 flex-1">Авторизация, оплата, база данных, базовый UI — всё, чтобы проверить гипотезу на реальных пользователях.</p>
         <div class="text-xs text-white/40 font-mono border-t border-white/5 pt-4">
           <div class="mb-1">Для: фаундеров</div>
-          <div class="text-neon">Срок: 2–3 недели</div>
+          <div class="text-neon">Срок: 2–4 недели</div>
         </div>
       </div>
       <div class="glass rounded-2xl p-8 flex flex-col">
         <div class="text-neon font-mono text-sm mb-3">02 / LANDING</div>
-        <h3 class="font-display font-bold text-xl mb-3">Вайб-кодинг лендинга</h3>
-        <p class="text-white/50 text-sm mb-6 flex-1">Продающая страница с анимациями, формой захвата и интеграцией с CRM. Быстро, дёшево, красиво.</p>
+        <h3 class="font-display font-bold text-xl mb-3">Лендинг с ИИ-чатом</h3>
+        <p class="text-white/50 text-sm mb-6 flex-1">Продающая страница с анимациями, формой захвата и ИИ-консультантом, который отвечает клиентам 24/7.</p>
         <div class="text-xs text-white/40 font-mono border-t border-white/5 pt-4">
           <div class="mb-1">Для: экспертов, локального бизнеса</div>
-          <div class="text-neon">Срок: 3–5 дней</div>
+          <div class="text-neon">Срок: 3–7 дней</div>
         </div>
       </div>
       <div class="glass rounded-2xl p-8 flex flex-col">
@@ -300,53 +441,84 @@
   </div>
 </section>
 
-<!-- CASES -->
-<section id="cases" class="py-24 px-6 border-t border-white/5">
+<!-- PRICING -->
+<section id="pricing" class="py-24 px-6 border-t border-white/5">
   <div class="max-w-6xl mx-auto reveal">
-    <div class="flex items-end justify-between mb-12 flex-wrap gap-4">
-      <h2 class="font-display font-bold text-3xl md:text-4xl">Последние запуски</h2>
-      <a href="#contact" class="text-neon hover:underline text-sm">Хочу так же →</a>
-    </div>
+    <h2 class="font-display font-bold text-3xl md:text-4xl mb-4">Сколько это стоит</h2>
+    <p class="text-white/50 mb-12 max-w-2xl">Точная цена — после брифа. Ниже — вилка, чтобы вы понимали порядок цифр.</p>
 
     <div class="grid md:grid-cols-3 gap-6">
-      <div class="glass rounded-2xl overflow-hidden">
-        <div class="h-40 bg-gradient-to-br from-violet/30 to-neon/10 flex items-center justify-center font-mono text-white/40 text-sm">
-          [ скриншот приложения ]
-        </div>
-        <div class="p-6">
-          <h3 class="font-display font-semibold text-lg mb-2">Генератор юр. документов</h3>
-          <p class="text-white/50 text-sm mb-4">Next.js + OpenAI API. Форма → готовый договор в PDF.</p>
-          <div class="flex gap-2 text-xs">
-            <span class="tag">10 дней</span>
-            <span class="tag">Next.js</span>
-          </div>
-        </div>
+      <div class="glass rounded-2xl p-8 flex flex-col">
+        <div class="text-white/40 text-sm font-mono mb-2">// LANDING</div>
+        <h3 class="font-display font-bold text-2xl mb-2">Лендинг</h3>
+        <div class="text-neon font-display font-bold text-3xl mb-4">от 30 000 ₽</div>
+        <ul class="space-y-3 text-white/60 text-sm mb-8 flex-1">
+          <li>✓ Продающая страница</li>
+          <li>✓ Анимации и адаптив</li>
+          <li>✓ Форма захвата → Telegram</li>
+          <li>✓ Базовое SEO</li>
+          <li>✓ Срок: 3–7 дней</li>
+        </ul>
+        <a href="#contact" class="border border-white/20 hover:border-neon hover:text-neon transition text-center py-3 rounded-full font-medium text-sm">Обсудить</a>
       </div>
-      <div class="glass rounded-2xl overflow-hidden">
-        <div class="h-40 bg-gradient-to-br from-neon/20 to-violet/20 flex items-center justify-center font-mono text-white/40 text-sm">
-          [ скриншот приложения ]
-        </div>
-        <div class="p-6">
-          <h3 class="font-display font-semibold text-lg mb-2">Дашборд аналитики</h3>
-          <p class="text-white/50 text-sm mb-4">React + Supabase. Сбор данных с маркетплейсов в реальном времени.</p>
-          <div class="flex gap-2 text-xs">
-            <span class="tag">14 дней</span>
-            <span class="tag">Supabase</span>
-          </div>
-        </div>
+      <div class="rounded-2xl p-8 border-2 border-neon/50 bg-neon/5 flex flex-col relative">
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-neon text-ink text-xs font-bold px-3 py-1 rounded-full">ПОПУЛЯРНОЕ</div>
+        <div class="text-neon text-sm font-mono mb-2">// MVP + ЧАТ</div>
+        <h3 class="font-display font-bold text-2xl mb-2">Сайт + ИИ-чат</h3>
+        <div class="text-neon font-display font-bold text-3xl mb-4">от 80 000 ₽</div>
+        <ul class="space-y-3 text-white/80 text-sm mb-8 flex-1">
+          <li>✓ Всё из пакета «Лендинг»</li>
+          <li>✓ ИИ-чат с вашими данными</li>
+          <li>✓ Сбор контактов в CRM</li>
+          <li>✓ Интеграция с Telegram</li>
+          <li>✓ Срок: 1–2 недели</li>
+        </ul>
+        <a href="#contact" class="btn-primary text-center py-3 rounded-full font-semibold text-sm">Обсудить</a>
       </div>
-      <div class="glass rounded-2xl overflow-hidden">
-        <div class="h-40 bg-gradient-to-tr from-violet/20 to-neon/30 flex items-center justify-center font-mono text-white/40 text-sm">
-          [ скриншот приложения ]
-        </div>
-        <div class="p-6">
-          <h3 class="font-display font-semibold text-lg mb-2">Лендинг с ИИ-чатом</h3>
-          <p class="text-white/50 text-sm mb-4">Гибрид v0 + Tilda. Конверсия выросла в 2.4 раза.</p>
-          <div class="flex gap-2 text-xs">
-            <span class="tag">4 дня</span>
-            <span class="tag">v0.dev</span>
-          </div>
-        </div>
+      <div class="glass rounded-2xl p-8 flex flex-col">
+        <div class="text-white/40 text-sm font-mono mb-2">// MVP</div>
+        <h3 class="font-display font-bold text-2xl mb-2">MVP приложения</h3>
+        <div class="text-neon font-display font-bold text-3xl mb-4">от 150 000 ₽</div>
+        <ul class="space-y-3 text-white/60 text-sm mb-8 flex-1">
+          <li>✓ Авторизация и оплата</li>
+          <li>✓ База данных</li>
+          <li>✓ Личный кабинет</li>
+          <li>✓ Деплой на хостинг</li>
+          <li>✓ Срок: 2–4 недели</li>
+        </ul>
+        <a href="#contact" class="border border-white/20 hover:border-neon hover:text-neon transition text-center py-3 rounded-full font-medium text-sm">Обсудить</a>
+      </div>
+    </div>
+
+    <p class="text-white/30 text-sm mt-8 font-mono text-center">
+      // Первый месяц поддержки (баг-фиксы) — бесплатно. Дальше — по договорённости.
+    </p>
+  </div>
+</section>
+
+<!-- КОМУ ПОДХОДИТ -->
+<section class="py-24 px-6 border-t border-white/5">
+  <div class="max-w-6xl mx-auto reveal">
+    <h2 class="font-display font-bold text-3xl md:text-4xl mb-12">Кому подходит, а кому нет</h2>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="glass rounded-2xl p-8">
+        <div class="text-neon font-mono text-sm mb-4">// Подходит</div>
+        <ul class="space-y-4 text-white/70">
+          <li class="flex gap-3"><span class="text-neon">✓</span> Фаундерам, которым нужен MVP для проверки гипотезы</li>
+          <li class="flex gap-3"><span class="text-neon">✓</span> Экспертам и онлайн-школам, которым нужен лендинг с чатом</li>
+          <li class="flex gap-3"><span class="text-neon">✓</span> Малому бизнесу, которому нужна автоматизация рутины</li>
+          <li class="flex gap-3"><span class="text-neon">✓</span> Тем, кто хочет получить код и не зависеть от подрядчика</li>
+        </ul>
+      </div>
+      <div class="glass rounded-2xl p-8">
+        <div class="text-white/30 font-mono text-sm mb-4">// Не подходит</div>
+        <ul class="space-y-4 text-white/50">
+          <li class="flex gap-3"><span class="text-red-400">✗</span> Крупным корпорациям с бюрократией и тендерами</li>
+          <li class="flex gap-3"><span class="text-red-400">✗</span> Проектам, где нужна команда из 10 человек и 24/7 поддержка</li>
+          <li class="flex gap-3"><span class="text-red-400">✗</span> Тем, кто хочет «сайт как у конкурента за 5000 рублей»</li>
+          <li class="flex gap-3"><span class="text-red-400">✗</span> Проектам на legacy-стеке (1С, старый PHP)</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -361,7 +533,7 @@
       <div class="relative">
         <div class="text-neon font-display text-5xl font-bold mb-3 opacity-30">01</div>
         <h3 class="font-semibold mb-2">Бриф</h3>
-        <p class="text-white/50 text-sm">Созвон 15 минут или переписка. Понимаю задачу и цель.</p>
+        <p class="text-white/50 text-sm">Созвон 15 минут или переписка. Понимаю задачу, цель и бюджет.</p>
       </div>
       <div class="relative">
         <div class="text-neon font-display text-5xl font-bold mb-3 opacity-30">02</div>
@@ -377,35 +549,6 @@
         <div class="text-neon font-display text-5xl font-bold mb-3 opacity-30">04</div>
         <h3 class="font-semibold mb-2">Запуск</h3>
         <p class="text-white/50 text-sm">Деплою на хостинг, передаю доступы и исходники. Ваш проект.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
-<section class="py-24 px-6 border-t border-white/5">
-  <div class="max-w-6xl mx-auto reveal">
-    <h2 class="font-display font-bold text-3xl md:text-4xl mb-12">Что говорят клиенты</h2>
-    <div class="grid md:grid-cols-2 gap-6">
-      <div class="glass rounded-2xl p-8">
-        <p class="text-white/70 mb-6 italic">«Я думал, что ИИ пишет только мусорный код. Но получил работающий MVP за 2 недели. Инвесторы в шоке.»</p>
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-neon/20 flex items-center justify-center font-bold text-neon">А</div>
-          <div>
-            <div class="font-semibold text-sm">Алексей</div>
-            <div class="text-white/40 text-xs">фаундер, SaaS для HR</div>
-          </div>
-        </div>
-      </div>
-      <div class="glass rounded-2xl p-8">
-        <p class="text-white/70 mb-6 italic">«Сделал лендинг за 3 дня. Конверсия выше, чем у старого сайта от студии за 300 тысяч.»</p>
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-violet/30 flex items-center justify-center font-bold text-violet">М</div>
-          <div>
-            <div class="font-semibold text-sm">Мария</div>
-            <div class="text-white/40 text-xs">эксперт, онлайн-школа</div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -445,6 +588,13 @@
         </summary>
         <p class="text-white/50 mt-4 text-sm">Отлично. На брифе помогу сформулировать MVP-фичи, чтобы не уйти в лишнее и уложиться в бюджет.</p>
       </details>
+      <details class="glass rounded-xl p-6 group">
+        <summary class="cursor-pointer font-semibold flex justify-between items-center">
+          Почему вы, а не студия?
+          <span class="text-neon group-open:rotate-45 transition">+</span>
+        </summary>
+        <p class="text-white/50 mt-4 text-sm">Студия накладывает накладные расходы: офис, менеджеры, бухгалтерия. Я работаю один, поэтому могу предложить цену ниже и сроки короче. При этом вы общаетесь напрямую со мной, а не через менеджера.</p>
+      </details>
     </div>
   </div>
 </section>
@@ -459,9 +609,11 @@
       Напишите в Telegram. Отвечу в течение часа и скажу честно — реально ли сделать это с помощью ИИ и за сколько.
     </p>
     <div class="flex flex-wrap justify-center gap-4">
+      <!-- ЗАМЕНИТЕ НА СВОЙ TELEGRAM -->
       <a href="https://t.me/username" class="btn-primary font-semibold px-8 py-4 rounded-full text-lg">
         Написать в Telegram
       </a>
+      <!-- ЗАМЕНИТЕ НА СВОЙ EMAIL -->
       <a href="mailto:hi@example.com" class="border border-white/20 hover:border-neon hover:text-neon transition px-8 py-4 rounded-full font-medium text-lg">
         Отправить email
       </a>
@@ -480,15 +632,34 @@
     </div>
     <div class="flex gap-6">
       <a href="#" class="hover:text-neon transition">GitHub</a>
-      <a href="#" class="hover:text-neon transition">Twitter / X</a>
+      <a href="#" class="hover:text-neon transition">Telegram</a>
+      <!-- ЗАМЕНИТЕ НА СВОЙ EMAIL -->
       <a href="mailto:hi@example.com" class="hover:text-neon transition">Email</a>
     </div>
     <div>© 2026 · Сделано с ИИ</div>
   </div>
 </footer>
 
-<!-- SCRIPT: reveal on scroll -->
+<!-- ИИ-ЧАТ (заглушка) -->
+<div id="chat-widget">
+  <div id="chat-window">
+    <div id="chat-header">
+      <span>ИИ-консультант</span>
+      <button onclick="toggleChat()" style="background:none;border:none;color:#fff;cursor:pointer;font-size:18px;">×</button>
+    </div>
+    <div id="chat-messages">
+      <div class="msg-bot">Привет! Я ИИ-помощник. Спросите меня о услугах, сроках или ценах — отвечу сразу.</div>
+    </div>
+    <div id="chat-input-area">
+      <input id="chat-input" type="text" placeholder="Напишите вопрос..." onkeypress="if(event.key==='Enter') sendMessage()" />
+      <button id="chat-send" onclick="sendMessage()">→</button>
+    </div>
+  </div>
+  <button id="chat-toggle" onclick="toggleChat()">💬</button>
+</div>
+
 <script>
+  // Reveal on scroll
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -498,6 +669,49 @@
   }, { threshold: 0.15 });
 
   document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+  // Чат
+  function toggleChat() {
+    const win = document.getElementById('chat-window');
+    win.classList.toggle('open');
+  }
+
+  // ЗАГЛУШКА: здесь можно подключить реальный API (OpenAI, Claude и т.д.)
+  // Сейчас работает демо-логика с заготовленными ответами
+  const demoResponses = {
+    'цена': 'Вилка цен: лендинг — от 30 000 ₽, сайт с ИИ-чатом — от 80 000 ₽, MVP — от 150 000 ₽. Точная цена — после брифа.',
+    'срок': 'Лендинг — 3–7 дней. Сайт с чатом — 1–2 недели. MVP — 2–4 недели. Зависит от сложности.',
+    'чат': 'ИИ-чат подключаю к вашим данным (услуги, цены, FAQ). Он отвечает клиентам 24/7 и собирает контакты.',
+    'по умолчанию': 'Спасибо за вопрос! Я demo-версия чата. В реальном проекте здесь будет полноценный ИИ, обученный на ваших данных. Напишите в Telegram для быстрого ответа.'
+  };
+
+  function sendMessage() {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if (!text) return;
+
+    const messages = document.getElementById('chat-messages');
+    const userMsg = document.createElement('div');
+    userMsg.className = 'msg-user';
+    userMsg.textContent = text;
+    messages.appendChild(userMsg);
+    input.value = '';
+
+    setTimeout(() => {
+      const botMsg = document.createElement('div');
+      botMsg.className = 'msg-bot';
+      const lower = text.toLowerCase();
+      let reply = demoResponses['по умолчанию'];
+      if (lower.includes('цен') || lower.includes('стоит') || lower.includes('стоимость')) reply = demoResponses['цена'];
+      else if (lower.includes('срок') || lower.includes('быстро') || lower.includes('долго')) reply = demoResponses['срок'];
+      else if (lower.includes('чат') || lower.includes('ии') || lower.includes('нейросет')) reply = demoResponses['чат'];
+      botMsg.textContent = reply;
+      messages.appendChild(botMsg);
+      messages.scrollTop = messages.scrollHeight;
+    }, 500);
+
+    messages.scrollTop = messages.scrollHeight;
+  }
 </script>
 
 </body>
