@@ -4,6 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="favicon.svg">
 <title>AI-разработчик — веб-приложения за дни, а не месяцы</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
@@ -622,8 +624,19 @@
 <!-- NAV -->
 <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-ink/70 border-b border-white/5">
   <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-    <a href="#" class="font-display font-bold text-lg tracking-tight">
-      <span class="text-neon">./</span>ai_builder
+    <a href="#" class="inline-flex items-center" aria-label="StanKrav">
+      <svg width="200" height="32" viewBox="0 0 180 32" fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
+        <!-- две косые черты -->
+        <rect x="0"  y="6" width="3" height="20" rx="1.5" fill="#00FF41" transform="skewX(-20)"/>
+        <rect x="8"  y="6" width="3" height="16" rx="1.5" fill="#00FF41" transform="skewX(-20)"/>
+        <!-- текст StanKrav -->
+        <text x="14" y="22"
+              font-family="'Comfortaa'"
+              font-size="18" font-weight="500"
+              letter-spacing="0.5"
+              fill="#FFFFFF"
+              transform="skewX(-8)">StanKrav</text>
+      </svg>
     </a>
     <nav class="hidden md:flex items-center gap-8 text-sm text-white/60">
       <a href="#apps" class="hover:text-white transition">Мои приложения</a>
@@ -804,7 +817,7 @@
                     </div>
                   </div>
 
-      <!-- ... повторить для app2, app3 -->
+ 
     </div>
   </div>
 </section>
@@ -838,17 +851,32 @@
 
     <div class="mt-12 grid md:grid-cols-3 gap-6">
       <div class="glass rounded-xl p-6 tilt">
-        <div class="text-neon text-2xl mb-2">⚡</div>
+        <div class="text-neon text-2xl mb-2"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"
+                stroke="#00FF41" stroke-width="1.5"
+                stroke-linejoin="round" stroke-linecap="round"/>
+        </svg></div>
         <h3 class="font-semibold mb-2">Скорость</h3>
         <p class="text-white/50 text-sm">То, что студия делает месяц, я делаю за неделю.</p>
       </div>
       <div class="glass rounded-xl p-6 tilt">
-        <div class="text-neon text-2xl mb-2">🎯</div>
+        <div class="text-neon text-2xl mb-2"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="9" stroke="#00FF41" stroke-width="1.5"/>
+          <circle cx="12" cy="12" r="5" stroke="#00FF41" stroke-width="1.5"/>
+          <circle cx="12" cy="12" r="1.5" fill="#00FF41"/>
+        </svg></div>
         <h3 class="font-semibold mb-2">Фокус на бизнесе</h3>
         <p class="text-white/50 text-sm">Мне важно, чтобы сайт приносил заявки, а не просто красиво выглядел.</p>
       </div>
       <div class="glass rounded-xl p-6 tilt">
-        <div class="text-neon text-2xl mb-2">🔓</div>
+        <div class="text-neon text-2xl mb-2"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="11" width="14" height="10" rx="2"
+                stroke="#00FF41" stroke-width="1.5"/>
+          <path d="M8 11V7a4 4 0 0 1 7.5-2"
+                stroke="#00FF41" stroke-width="1.5"
+                stroke-linecap="round"/>
+          <circle cx="12" cy="16" r="1.5" fill="#00FF41"/>
+        </svg></div>
         <h3 class="font-semibold mb-2">Без зависимости</h3>
         <p class="text-white/50 text-sm">Код и доступы передаю вам. Вы владеете продуктом.</p>
       </div>
@@ -1078,32 +1106,54 @@
 <footer class="border-t border-white/5 py-10 px-6">
   <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/40">
     <div class="font-display font-bold text-white">
-      <span class="text-neon">./</span>ai_builder
+      <span class="text-neon"><svg width="150" height="24" viewBox="0 0 180 32" fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
+              <!-- две косые черты -->
+              <rect x="0"  y="6" width="3" height="20" rx="1.5" fill="#00FF41" transform="skewX(-20)"/>
+              <rect x="8"  y="6" width="3" height="16" rx="1.5" fill="#00FF41" transform="skewX(-20)"/>
+              <!-- текст StanKrav -->
+              <text x="14" y="22"
+                    font-family="'Comfortaa'"
+                    font-size="18" font-weight="500"
+                    letter-spacing="0.5"
+                    fill="#FFFFFF"
+                    transform="skewX(-8)">StanKrav</text>
+            </svg></span>
     </div>
     <div class="flex gap-6">
-      <a href="#" class="hover:text-neon transition">GitHub</a>
+      <a href="https://github.com/StasKrav" class="hover:text-neon transition">GitHub</a>
       <a href="#" class="hover:text-neon transition">Telegram</a>
-      <a href="mailto:hi@example.com" class="hover:text-neon transition">Email</a>
+      <a href="mailto:krav.stan@yandex.ru" class="hover:text-neon transition">Email</a>
     </div>
     <div>© 2026 · Сделано с ИИ</div>
   </div>
 </footer>
 
+
 <!-- ИИ-ЧАТ -->
 <div id="chat-widget">
   <div id="chat-window">
     <div id="chat-header">
-      <span>ИИ-консультант</span>
-      <button onclick="toggleChat()" style="background:none;border:none;color:#fff;cursor:pointer;font-size:18px;">×</button>
+      <div style="display:flex; align-items:center;">
+        <div class="chat-avatar">AI</div>
+        <div class="chat-title">
+          <div class="chat-name">AI-консультант</div>
+          <div class="chat-status">онлайн</div>
+        </div>
+      </div>
+      <button id="chat-close" onclick="toggleChat()">×</button>
     </div>
+
     <div id="chat-messages">
       <div class="msg-bot">Привет! Я ИИ-помощник. Спросите меня о услугах, сроках или ценах — отвечу сразу.</div>
     </div>
+
     <div id="chat-input-area">
-      <input id="chat-input" type="text" placeholder="Напишите вопрос..." onkeypress="if(event.key==='Enter') sendMessage()" />
+      <input id="chat-input" type="text" placeholder="Напишите вопрос..."
+             onkeypress="if(event.key==='Enter') sendMessage()" />
       <button id="chat-send" onclick="sendMessage()">→</button>
     </div>
   </div>
+
   <button id="chat-toggle" onclick="toggleChat()">💬</button>
 </div>
 
@@ -1254,28 +1304,41 @@
     const input = document.getElementById('chat-input');
     const text = input.value.trim();
     if (!text) return;
-
+  
     const messages = document.getElementById('chat-messages');
+  
+    // Сообщение пользователя
     const userMsg = document.createElement('div');
     userMsg.className = 'msg-user';
     userMsg.textContent = text;
     messages.appendChild(userMsg);
     input.value = '';
-
+    messages.scrollTop = messages.scrollHeight;
+  
+    // Индикатор "печатает..."
+    const typing = document.createElement('div');
+    typing.className = 'typing';
+    typing.innerHTML = '<span></span><span></span><span></span>';
+    messages.appendChild(typing);
+    messages.scrollTop = messages.scrollHeight;
+  
+    // Ответ бота
     setTimeout(() => {
+      typing.remove();
+  
       const botMsg = document.createElement('div');
       botMsg.className = 'msg-bot';
+  
       const lower = text.toLowerCase();
       let reply = demoResponses['по умолчанию'];
       if (lower.includes('цен') || lower.includes('стоит') || lower.includes('стоимость')) reply = demoResponses['цена'];
       else if (lower.includes('срок') || lower.includes('быстро') || lower.includes('долго')) reply = demoResponses['срок'];
       else if (lower.includes('чат') || lower.includes('ии') || lower.includes('нейросет')) reply = demoResponses['чат'];
+  
       botMsg.textContent = reply;
       messages.appendChild(botMsg);
       messages.scrollTop = messages.scrollHeight;
-    }, 500);
-
-    messages.scrollTop = messages.scrollHeight;
+    }, 1100);
   }
 </script>
 
