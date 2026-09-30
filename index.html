@@ -1129,7 +1129,7 @@
 </footer>
 
 
-<!-- ИИ-ЧАТ -->
+<!-- ИИ-ЧАТ (YandexGPT) -->
 <div id="chat-widget">
   <div id="chat-window">
     <div id="chat-header">
@@ -1137,24 +1137,23 @@
         <div class="chat-avatar">AI</div>
         <div class="chat-title">
           <div class="chat-name">AI-консультант</div>
-          <div class="chat-status">онлайн</div>
+          <div class="chat-status">онлайн · YandexGPT</div>
         </div>
       </div>
-      <button id="chat-close" onclick="toggleChat()">×</button>
+      <button id="chat-close">×</button>
     </div>
 
     <div id="chat-messages">
-      <div class="msg-bot">Привет! Я ИИ-помощник. Спросите меня о услугах, сроках или ценах — отвечу сразу.</div>
+      <div class="msg-bot">Привет! Я ИИ-консультант на базе YandexGPT. Спросите о услугах, сроках или ценах — отвечу сразу.</div>
     </div>
 
     <div id="chat-input-area">
-      <input id="chat-input" type="text" placeholder="Напишите вопрос..."
-             onkeypress="if(event.key==='Enter') sendMessage()" />
-      <button id="chat-send" onclick="sendMessage()">→</button>
+      <input id="chat-input" type="text" placeholder="Напишите вопрос..." />
+      <button id="chat-send">→</button>
     </div>
   </div>
 
-  <button id="chat-toggle" onclick="toggleChat()">💬</button>
+  <button id="chat-toggle">💬</button>
 </div>
 
 <script>
@@ -1287,59 +1286,103 @@
     });
   });
 
-  /* ===== Чат ===== */
+  /* ===== Чат (YandexGPT через прокси) ===== */
+
+  // Адрес бэкенда:
+  // - локально (server.js) — относительный путь /api/chat;
+  // - на проде (статика в Object Storage) — URL вашей Cloud Function.
+  // Впишите сюда ID функции после создания HTTP-триггера, например:
+  //   'https://functions.yandexcloud.net/d4eXXXXXXXXXXXX'
+  const API_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? '/api/chat'
+    : 'https://functions.yandexcloud.net/d4eqohbe4bf732q7dmhp';
+
+  const chatMessages = document.getElementById('chat-messages');
+  const chatInput = document.getElementById('chat-input');
+  const chatSend = document.getElementById('chat-send');
+  const chatHistory = [];
+
   function toggleChat() {
     const win = document.getElementById('chat-window');
     win.classList.toggle('open');
+    if (win.classList.contains('open')) chatInput.focus();
   }
 
-  const demoResponses = {
-    'цена': 'Вилка цен: лендинг — от 30 000 ₽, сайт с ИИ-чатом — от 80 000 ₽, MVP — от 150 000 ₽. Точная цена — после брифа.',
-    'срок': 'Лендинг — 3–7 дней. Сайт с чатом — 1–2 недели. MVP — 2–4 недели. Зависит от сложности.',
-    'чат': 'ИИ-чат подключаю к вашим данным (услуги, цены, FAQ). Он отвечает клиентам 24/7 и собирает контакты.',
-    'по умолчанию': 'Спасибо за вопрос! Я demo-версия чата. В реальном проекте здесь будет полноценный ИИ, обученный на ваших данных. Напишите в Telegram для быстрого ответа.'
-  };
+  function addMsg(role, text) {
+    const div = document.createElement('div');
+    div.className = role === 'user' ? 'msg-user' : 'msg-bot';
+    div.textContent = text;
+    chatMessages.appendChild(div);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    return div;
+  }
 
-  function sendMessage() {
-    const input = document.getElementById('chat-input');
-    const text = input.value.trim();
-    if (!text) return;
-  
-    const messages = document.getElementById('chat-messages');
-  
-    // Сообщение пользователя
-    const userMsg = document.createElement('div');
-    userMsg.className = 'msg-user';
-    userMsg.textContent = text;
-    messages.appendChild(userMsg);
-    input.value = '';
-    messages.scrollTop = messages.scrollHeight;
-  
-    // Индикатор "печатает..."
-    const typing = document.createElement('div');
-    typing.className = 'typing';
-    typing.innerHTML = '<span></span><span></span><span></span>';
-    messages.appendChild(typing);
-    messages.scrollTop = messages.scrollHeight;
-  
-    // Ответ бота
-    setTimeout(() => {
+  function showTyping() {
+    const t = document.createElement('div');
+    t.className = 'typing';
+    t.innerHTML = '<span></span><span></span><span></span>';
+    chatMessages.appendChild(t);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    return t;
+  }
+
+  async function sendMessage() {
+    const text = chatInput.value.trim();
+    if (!text || chatSend.disabled) return;
+
+    chatInput.value = '';
+    chatSend.disabled = true;
+
+    addMsg('user', text);
+    chatHistory.push({ role: 'user', text });
+
+    const typing = showTyping();
+
+    try {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: chatHistory }),
+      });
+
       typing.remove();
-  
-      const botMsg = document.createElement('div');
-      botMsg.className = 'msg-bot';
-  
-      const lower = text.toLowerCase();
-      let reply = demoResponses['по умолчанию'];
-      if (lower.includes('цен') || lower.includes('стоит') || lower.includes('стоимость')) reply = demoResponses['цена'];
-      else if (lower.includes('срок') || lower.includes('быстро') || lower.includes('долго')) reply = demoResponses['срок'];
-      else if (lower.includes('чат') || lower.includes('ии') || lower.includes('нейросет')) reply = demoResponses['чат'];
-  
-      botMsg.textContent = reply;
-      messages.appendChild(botMsg);
-      messages.scrollTop = messages.scrollHeight;
-    }, 1100);
+
+      if (!res.ok) {
+        const errText = await res.text();
+        addMsg('bot', '⚠️ ' + (errText || 'Что-то пошло не так. Попробуйте ещё раз.'));
+        return;
+      }
+
+      // Стриминг ответа от сервера
+      const botMsg = addMsg('bot', '');
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let reply = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        reply += decoder.decode(value, { stream: true });
+        botMsg.textContent = reply;
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      chatHistory.push({ role: 'assistant', text: reply });
+    } catch (err) {
+      typing.remove();
+      addMsg('bot', '⚠️ Не удалось связаться с сервером. Проверьте, что запущен server.js.');
+    } finally {
+      chatSend.disabled = false;
+      chatInput.focus();
+    }
   }
+
+  document.getElementById('chat-close').addEventListener('click', toggleChat);
+  document.getElementById('chat-toggle').addEventListener('click', toggleChat);
+  chatSend.addEventListener('click', sendMessage);
+  chatInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') sendMessage();
+  });
 </script>
 
 </body>
